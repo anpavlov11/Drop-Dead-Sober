@@ -18,6 +18,6 @@ class PostView(DetailView):
         pk = self.kwargs['pk']
         slug = self.kwargs['slug']
 
-        post = get_onject_or_404(Post, pk=pk, slug=slug)
+        post = get_object_or_404(Post, pk=pk, slug=slug)
         context['post'] = post
         return context
