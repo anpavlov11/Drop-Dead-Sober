@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+# import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,7 +43,6 @@ INSTALLED_APPS = [
     'core',
 ]
 
-AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,8 +56,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'blog.urls'
 
-MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/media/'
 
 TEMPLATES = [
     {
@@ -126,7 +125,29 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (BASE_DIR / 'static',)
+
+AUTH_USER_MODEL = 'users.User'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
+LOGIN_URL = '/users/login/'
+
+if os.environ.get('ENV') == 'PRODUCTION':
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600, ssl_require=True)
+    EMAIL_HOST = os.environ.get("EMAIL_HOST")
+    EMAIL_PORT = os.environ.get("EMAIL_HOST")
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST")
+    EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = "Django blog <noreply@djangoblog.com>"
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
