@@ -3,10 +3,6 @@
 <div class="container mt-5">
   <div class="row">
     {% for post in object_list %}
-    <div class="card col-lg-6 offset-lg-3 mb-3">
-      {% if post.image %}
-      <img class="card-img-top mt-3" src="{{ post.image.url }}" alt="{{ post.title }}">
-      {% endif %}
       <div class="card-body">
         <a href="{% url 'core:post' post.id post.slug %}">
           <h2 class="card-title my-3">{{ post.title }} </h2>
