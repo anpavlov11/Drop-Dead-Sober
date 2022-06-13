@@ -13,7 +13,7 @@ urlpatterns = [
     path('login/', log_in, name='login'),
     path('logout/', log_out, name='logout'),
     path('password_reset/', PasswordResetView.as_view(
-        template_name='users/password_reset/html',
+        template_name='users/password_reset.html',
         email_template_name='users/password_reset_email.html',
         subject_template_name='users/password_reset_subject.txt',
         success_url='users/password_reset/done/'),
