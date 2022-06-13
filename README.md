@@ -34,6 +34,8 @@ The purpose of the blog is to allow alcoholics/addicts to connect and share thei
 #### Stretch
 - Trigger an alert to the blog god based on keywords (defamatory, inappropriate)
 - Google Map API
+## GitHub
+- https://github.com/anpavlov11/blog.git
 ## Technologies Used
 - Django
 - Python
