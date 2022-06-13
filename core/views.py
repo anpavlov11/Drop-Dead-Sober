@@ -1,3 +1,9 @@
+from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.text import slugify
+from django.urls import reverse_lazy
+from django.contrib import messages
 from django.views.generic import (
     ListView,
     DetailView,
@@ -5,28 +11,25 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
-from django.utils.text import slugify
-from django.urls import reverse_lazy
-from django.contrib import messages
 
-from .models import Post
+from .models import Post, Comment
+from .forms import CommentForm
+
 
 class HomeView(ListView):
     template_name = 'core/home.html'
     queryset = Post.objects.all()
     paginate_by = 2
 
+
 class PostView(DetailView):
     model = Post
-    template_name = 'core/post.html'
+    template_name = "core/post.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs['pk']
-        slug = self.kwargs['slug']
+        pk = self.kwargs["pk"]
+        slug = self.kwargs["slug"]
 
         form = CommentForm()
         post = get_object_or_404(Post, pk=pk, slug=slug)
@@ -36,7 +39,7 @@ class PostView(DetailView):
         context['comments'] = comments
         context['form'] = form
         return context
-    
+
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
         self.object = self.get_object()
@@ -64,13 +67,14 @@ class PostView(DetailView):
 
         return self.render_to_response(context=context)
 
+
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ["title", "content", "image", "tags"]
 
     def get_success_url(self):
         messages.success(
-            self.request, 'Post created successfully.')
+            self.request, 'Your post has been created successfully.')
         return reverse_lazy("core:home")
 
     def form_valid(self, form):
@@ -79,6 +83,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         obj.slug = slugify(form.cleaned_data['title'])
         obj.save()
         return super().form_valid(form)
+
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
@@ -93,7 +98,7 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         messages.success(
-            self.request, 'Post updated successfully.')
+            self.request, 'Your post has been updated successfully.')
         return reverse_lazy("core:home")
 
     def get_queryset(self):
@@ -105,7 +110,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         messages.success(
-            self.request, 'Post deleted successfully.')
+            self.request, 'Your post has been deleted successfully.')
         return reverse_lazy("core:home")
 
     def get_queryset(self):
