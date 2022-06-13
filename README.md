@@ -23,7 +23,6 @@ The purpose of the blog is to allow alcoholics/addicts to connect and share thei
   * aa.org
   * mobile AA apps
 - View meeting locations on a Google Map
-<br>
 
 ### Blog God Features
 #### MVP
