@@ -3,9 +3,11 @@ from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
-    PasswordResetCompleteView
+    PasswordResetCompleteView,
+    PasswordChangeView,
+    PasswordChangeDoneView,
 )
-
+from django.urls import reverse_lazy
 from.views import signup, log_in, log_out
 
 urlpatterns = [
@@ -28,4 +30,15 @@ urlpatterns = [
         success_url='/users/reset/done/'),
         name='password_reset_complete'
     ),
+    path('reset/done/', PasswordResetCompleteView.as_view(
+        template_name='users/password_reset_complete.html'),
+        name='password_reset_complete'
+    ),
+    path('password_change/', PasswordChangeView.as_view(
+        template_name='users/password_change.html',
+        success_url=reverse_lazy('users:password_change_done')),
+        name='password_change'),
+    path('password_change/done/', PasswordChangeDoneView.as_view(
+        template_name='users/password_change_done.html'),
+        name='password_change_done'),
 ]
