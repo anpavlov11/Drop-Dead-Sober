@@ -38,5 +38,7 @@ The purpose of the blog is to allow alcoholics/addicts to connect and share thei
 ## Technologies Used
 - Django
 - Python
+- Bootstrap
+- Bob Bryant
 ## Wireframes
 ![Screen Shot 2022-06-03 at 12 59 10 PM](https://user-images.githubusercontent.com/101487933/171920481-93375d09-a502-44b9-820a-ca6413cfeb90.png)
