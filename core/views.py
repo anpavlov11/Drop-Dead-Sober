@@ -56,7 +56,6 @@ class PostView(DetailView):
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             content = form.cleaned_data['content']
-
             comment = Comment.objects.create(
                 name=name, email=email, content=content, post=post
             )
@@ -67,14 +66,13 @@ class PostView(DetailView):
 
         return self.render_to_response(context=context)
 
-
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ["title", "content", "image", "tags"]
 
     def get_success_url(self):
         messages.success(
-            self.request, 'Your post has been created successfully.')
+            self.request, 'Post created.')
         return reverse_lazy("core:home")
 
     def form_valid(self, form):
@@ -84,7 +82,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         obj.save()
         return super().form_valid(form)
 
-
 class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ["title", "content", "image", "tags"]
@@ -93,12 +90,11 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         update = True
         context['update'] = update
-
         return context
 
     def get_success_url(self):
         messages.success(
-            self.request, 'Your post has been updated successfully.')
+            self.request, 'Post updated.')
         return reverse_lazy("core:home")
 
     def get_queryset(self):
@@ -110,7 +106,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         messages.success(
-            self.request, 'Your post has been deleted successfully.')
+            self.request, 'Post deleted.')
         return reverse_lazy("core:home")
 
     def get_queryset(self):
